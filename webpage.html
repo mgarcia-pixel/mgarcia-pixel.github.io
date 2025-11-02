@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Name | Animal Behaviour Scientist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-main:   #246A73;
+      --color-accent: #3AB795;
+      --color-bright: #FFC857;
+      --color-bg:     #F5F7FA;
+      --color-section: #ffffff;
+      --color-header-gradient: linear-gradient(120deg, #3AB795 0%, #246A73 100%);
+      --color-headers: #246A73;
+      --color-text:   #212529;
+      --color-cardShadow: 0 3px 13px #246a7344;
+
+      --color-main-dark:   #FFC857;
+      --color-accent-dark: #3AB795;
+      --color-bright-dark: #246A73;
+      --color-bg-dark:     #171C1E;
+      --color-section-dark: #23292E;
+      --color-header-gradient-dark: linear-gradient(120deg, #246A73 0%, #3AB795 90%);
+      --color-headers-dark: #FFC857;
+      --color-text-dark:   #ECECEC;
+      --color-cardShadow-dark: 0 3px 13px #151b2144;
+    }
+    html { scroll-behavior: smooth;}
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Inter', Lato, Arial, sans-serif;
+      font-size: 18px; margin: 0; transition:background .28s, color .23s;
+    }
+    body.dark-mode {
+      background: var(--color-bg-dark);
+      color: var(--color-text-dark);
+      --color-main: var(--color-main-dark);
+      --color-accent: var(--color-accent-dark);
+      --color-bright: var(--color-bright-dark);
+      --color-bg: var(--color-bg-dark);
+      --color-section: var(--color-section-dark);
+      --color-header-gradient: var(--color-header-gradient-dark);
+      --color-headers: var(--color-headers-dark);
+      --color-text: var(--color-text-dark);
+      --color-cardShadow: var(--color-cardShadow-dark);
+    }
+    a {transition:.15s;}
+    .darkmode-toggle {
+      position:fixed;top:22px;right:23px;z-index:1211;
+      background:var(--color-section); border:none;
+      color:var(--color-main); transition:.18s;
+      font-size: 2em; border-radius:50%; width:47px;height:47px; cursor:pointer;
+      box-shadow:0 3px 11px #3ab79517; display:flex;align-items:center;justify-content:center; outline:none;
+    }
+    .darkmode-toggle:hover {background:var(--color-accent);color:var(--color-bright);}
+    body.dark-mode .darkmode-toggle {background:var(--color-section-dark);}
+    .hero-header {position: relative; min-height: 372px;
+      background: var(--color-header-gradient); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding-top: 52px; padding-bottom: 87px;
+      overflow: hidden; z-index: 1; box-shadow:0 7px 40px rgba(32,106,126,0.07);}
+    body.dark-mode .hero-header {background: var(--color-header-gradient-dark); color: #fff;}
+    .hero-bg-shape {position: absolute; width: 360px; height: 220px; left:50%; top: 52px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse 180px 90px at 50% 58%,var(--color-bright)70%, transparent 100%);
+      opacity: .21; filter: blur(3.1px); z-index: 0;}
+    .profile-pic {width: 142px; height: 142px; border-radius: 50%; object-fit: cover;
+      border: 6.5px solid #fff; box-shadow: 0 8px 30px #3ab79522; margin-bottom: 12px; z-index:2; background:#fff; margin-top: -32px;}
+    .main-title { font-size: 2.45em; font-weight: 800; margin: 8px 0 5px 0; color: #fff; z-index:2;}
+    .main-subtitle { font-size: 1.13em; font-weight: 600; margin-bottom: 15px; color: var(--color-bright); z-index:2;}
+    .hero-desc { max-width: 460px; margin: 0 auto 13px auto; font-size: 1.09em; color: #edf6f6; z-index:2; }
+    .hero-header .main-nav {margin-top: 18px;position: relative;z-index: 3;}
+    .main-nav {
+      display: inline-flex; gap: 25px; margin-top:11px;justify-content:center;
+      background: rgba(255,255,255,0.06); border-radius:22px; padding:7px 23px 7px;
+    }
+    .main-nav a {
+      color: var(--color-bright); font-weight:700; font-size: 1.04em;
+      letter-spacing:.005em; text-decoration:none; padding:0 11px 5px 11px; border-bottom:2.5px solid transparent;
+      border-radius: 5px 5px 0 0; transition: color .15s, border .18s, background .3s; position:relative; overflow:hidden;
+    }
+    .main-nav a:after {
+      content: '';
+      position: absolute;left:0;bottom:2px;height:2.5px;width:100%;background:var(--color-bright);
+      transform:scaleX(0);transition:transform .33s cubic-bezier(.45,.04,.49,1.51);transform-origin:0 50%;
+    }
+    .main-nav a:hover:after,
+    .main-nav a.active:after {transform:scaleX(1);}
+    .main-nav a:hover, .main-nav a:focus { color:var(--color-main); background: rgba(58,183,149,0.15);}
+    .main-nav a.active {color: var(--color-bright);}
+    .scroll-down-cue {position: absolute;left: 50%; bottom: 8px; transform: translateX(-50%);
+      z-index: 12; display: flex; flex-direction: column; align-items: center;pointer-events: none; user-select:none;}
+    .scroll-down-cue span {font-size: .92em; color:var(--color-bright); letter-spacing: .03em; margin-bottom: 2px;text-shadow:0 2px 12px #233a;}
+    .scroll-down-arrow {font-size: 2.3em; color: var(--color-bright);animation: bounce-arrow 1.44s cubic-bezier(.8,.25,.6,1.09) infinite;margin-top: -.07em;}
+    @keyframes bounce-arrow {0%, 80%, 100% { transform:translateY(0); } 30%, 50% { transform: translateY(12px);}}
+    .sticky-nav {position: sticky; top: 0; left:0; right:0; z-index: 1000;
+      background: rgba(255,255,255,0.98); box-shadow: 0 1px 16px #2c6d8225; display: flex;
+      justify-content: center; align-items:center; padding: 0;
+      border-bottom: 2px solid var(--color-bg); min-height:60px; transition: background .19s, box-shadow .22s;}
+    .sticky-nav .site-name {font-size: 1.07em; font-weight: 700; color: var(--color-main);
+      margin-right:22px; letter-spacing:.04em; padding-left: 8vw;}
+    .sticky-nav .main-nav {margin: 0; background: none; border-radius:0; box-shadow: none; padding: 0; gap:2.2vw;}
+    .sticky-nav .main-nav a {color: var(--color-main); background: none; font-size:1em; line-height:60px;
+      padding:0 9px 5px 9px; border-radius: 0 0 7px 7px;}
+    .sticky-nav .main-nav a:after {background:var(--color-main);}
+    .sticky-nav .main-nav a:hover, .sticky-nav .main-nav a:focus {color:var(--color-accent); background:rgba(58,183,149,0.07);}
+    .sticky-nav .main-nav a.active { color: var(--color-bright);}
+    .hero-header.hide-hero-nav .main-nav { display:none; }
+    .hero-header.hide-hero-nav { padding-bottom:55px; }
+    .site-container {max-width: 830px; margin: 0 auto; padding: 0 10px;}
+    section {background: var(--color-section); border-radius: 20px; box-shadow: var(--color-cardShadow);
+      margin: 49px 0 0 0; padding: 50px 36px 38px 36px; max-width: 700px; margin-left:auto; margin-right:auto;
+      position:relative; opacity:0; transform:translateY(40px); transition: opacity 0.66s cubic-bezier(.74,.07,.33,1.01), transform 0.77s cubic-bezier(.83,.01,.13,.99);will-change:opacity,transform; z-index:2;}
+    body.dark-mode section {background:var(--color-section-dark);box-shadow: var(--color-cardShadow-dark);}
+    section.visible { opacity:1; transform:translateY(0);}
+    .section-divider {width:100%;height:41px;display:block;margin-bottom:-15px;pointer-events:none;}
+    .section-divider svg { display:block;width:100%;height:100%; }
+    section h3 {color: var(--color-headers); border-left: 9px solid var(--color-accent); padding-left: 18px; font-size:1.4em;
+      margin-bottom: 18px;}
+    body.dark-mode section h3 {color: var(--color-headers-dark); border-left: 9px solid var(--color-bright-dark);}
+    .cv-btn {display: inline-block; background: var(--color-bright); color: var(--color-main)!important;
+      font-weight:700; padding: 11px 32px; border-radius:29px;
+      border:none; font-size:1.09em; box-shadow:0 2px 10px #ffc85735; text-decoration: none;
+      margin:16px 0 18px 0; letter-spacing:.03em;}
+    .cv-btn:hover, .cv-btn:focus {background:var(--color-accent)!important; color:#fff!important; cursor:pointer; transition:.21s;}
+    .key-pts li {margin-bottom:7px;}
+    .key-pts {padding-left:19px; margin-bottom:12px;}
+    /* ==== SKILLS SEARCH BAR ==== */
+    #skillSearch {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 13px 0 18px 0;
+      padding: 13px 18px;
+      font-size: 1.05em;
+      border: 2.3px solid var(--color-accent);
+      border-radius: 11px;
+      outline: none;
+      transition: border-color .15s;
+      box-shadow: 0 1.5px 9px #3ab79509;
+      background: #fff;
+      color: var(--color-text);
+    }
+    body.dark-mode #skillSearch {
+      background: var(--color-bg-dark);
+      color: var(--color-text-dark);
+      border: 2.3px solid var(--color-main-dark);
+    }
+    #skillSearch:focus { border-color: var(--color-main);}
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: 13px 16px; padding-left: 0; margin: 0 0 10px 0; list-style: none;
+    }
+    .skills-list li {
+      background: var(--color-accent);
+      color: #fff;
+      border-radius: 19px;
+      padding: 7px 19px;
+      font-size: .98em;
+      margin-bottom: 7px;
+      box-shadow:0 1px 8px #3ab79528;
+      letter-spacing:.03em;
+      font-weight: 600;
+      transition: background .17s, color .14s, box-shadow .17s;
+      user-select:none;
+      cursor:pointer;
+      outline:none;
+    }
+    body.dark-mode .skills-list li {
+      background: var(--color-main-dark); color: #23292E;
+    }
+    .skills-list li.matched {
+      background: var(--color-bright); color: var(--color-main);
+      box-shadow:0 3px 14px #ffc85737;
+    }
+    body.dark-mode .skills-list li.matched {
+      background: var(--color-bright-dark); color: var(--color-bright);
+    }
+    .skills-list li:focus {box-shadow:0 0 0 3px var(--color-bright);}
+    .skill-modal-bg {
+      display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(32,106,130,0.13);
+      align-items:center;justify-content:center;
+    }
+    .skill-modal-bg.show {display:flex;}
+    .skill-modal {
+      background:var(--color-section); color: var(--color-text);
+      border-radius:16px; box-shadow:0 13px 35px #246a7340, 0 1.5px 8px #3ab79513;
+      max-width: 420px; min-width: 270px; margin:0 auto; padding:39px 28px 29px 28px; position:relative;
+      animation:popup-in .32s cubic-bezier(.45,.12,.52,1.01);
+    }
+    @keyframes popup-in { from{transform:scale(.92); opacity:.35;} to{transform:scale(1); opacity:1;}}
+    body.dark-mode .skill-modal {background: var(--color-section-dark); color: var(--color-text-dark);}
+    .skill-modal h4 {color: var(--color-main);margin-top:0;font-size:1.17em;}
+    .skill-modal .close-skill-modal {
+      position:absolute;top:10px;right:19px;font-size:2em;color:var(--color-main);font-weight:700;cursor:pointer;
+      background:none;border:none;outline:none;
+      transition:.13s;
+    }
+    .skill-modal .close-skill-modal:hover {color:var(--color-accent);}
+    .skill-modal .skill-modal-desc { margin-top:10px;font-size:.99em; margin-bottom: 16px; color:var(--color-text);}
+    .skill-modal ul {list-style:disc inside; margin:0 0 0 0;font-size:.97em;}
+    .skill-modal ul li {margin-bottom:7px;}
+    /* OVAL CAROUSEL -- see previous answers */
+    .portfolio-carousel-oval-wrapper { display: flex; align-items: center; justify-content: center; margin: 38px 0 11px 0; position: relative; min-height: 345px; user-select:none;}
+    .carousel-oval-arrow { background: #fff; color: var(--color-main); border: none; font-size: 2.2em;
+      height: 64px; width: 52px; border-radius: 16px;
+      box-shadow:0 2px 10px #246a7328; margin: 0 15px; cursor: pointer; display: flex; align-items:center; justify-content:center;
+      opacity: 0.88; z-index: 8; transition: opacity .14s;}
+    .carousel-oval-arrow:disabled { opacity:.25;}
+    .portfolio-carousel-oval { width: 370px; max-width:98vw; min-height: 340px;
+      position: relative; display: flex; align-items:center; justify-content:center;}
+    .portfolio-oval-item {
+      position: absolute; left: 50%; top: 50%; width: 295px; max-width:97vw; min-height: 300px; border-radius: 16px;
+      background: #f8faff; box-shadow: 0 3px 13px #246a7333;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 18px 13px 18px;
+      opacity:0; z-index: 1; pointer-events: none;
+      will-change: transform, opacity; font-size:.97em;
+      transition: opacity 0.55s cubic-bezier(.83,.01,.13,.99), z-index 0s 0.55s, transform 0.77s cubic-bezier(.83,.01,.13,.99);}
+    .portfolio-oval-item.center {z-index: 5; opacity:1;
+      transform: translate(-50%, -50%) scale(1) rotateY(0deg) translateY(0px);
+      box-shadow:0 15px 24px #e0ebf984, 0 2px 10px #e6edf7; pointer-events:auto;}
+    .portfolio-oval-item.left, .portfolio-oval-item.right {z-index:3; opacity:0.75;}
+    .portfolio-oval-item.left {transform: translate(-50%, -50%) scale(0.88) rotateY(-27deg) translateX(-148px) translateY(13px);}
+    .portfolio-oval-item.right {transform: translate(-50%, -50%) scale(0.88) rotateY(27deg) translateX(148px) translateY(13px);}
+    .portfolio-oval-item.prev, .portfolio-oval-item.next {opacity: 0.11 !important; z-index: 1; pointer-events: none;}
+    .portfolio-oval-item.prev {transform: translate(-50%, -50%) scale(0.60) rotateY(-45deg) translateX(-235px) translateY(28px);}
+    .portfolio-oval-item.next {transform: translate(-50%, -50%) scale(0.60) rotateY(45deg) translateX(235px) translateY(28px);}
+    .portfolio-oval-item:not(.center):not(.left):not(.right):not(.prev):not(.next) {opacity:0; z-index:1; pointer-events: none;}
+    .portfolio-img {width: 100%; height: 140px; object-fit: cover; border-radius: 8px; box-shadow:0 2px 9px #d6e9f9; margin-bottom: 13px; transition: box-shadow .3s, filter .3s;}
+    .portfolio-oval-item.center .portfolio-img:hover {box-shadow:0 4px 16px #b5ccdf; filter: brightness(0.98) saturate(1.09);}
+    .portfolio-title {
+      font-weight: 700;
+      color: var(--color-main);
+      font-size: 1.16em;
+      margin-bottom: 7px;
+      text-align: center;
+      transition: color .13s, text-decoration-color .2s;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      outline: none;
+    }
+    .portfolio-title:hover,
+    .portfolio-title:focus {
+      text-decoration: underline;
+      text-decoration-thickness: 2.3px;
+      text-underline-offset: 3px;
+      color: var(--color-accent);
+      text-decoration-color: var(--color-accent);
+    }
+    .portfolio-title:active {
+      color: var(--color-main);
+    }
+    .portfolio-desc {font-size:1em; color:#242c2b; margin-bottom:7px; text-align: center; flex:1;}
+    .portfolio-links {margin-bottom: 3px;}
+    .portfolio-links a { color:var(--color-main); margin-right:10px; text-decoration:none; font-size: 1em; font-weight: 600; transition: color .15s;}
+    .portfolio-links a:hover {color:var(--color-accent);}
+    .contact-list {
+      display: flex; flex-direction: column; gap: 0.3em 0;
+      list-style: none; margin:0; padding:0;
+    }
+    .contact-list svg {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      max-width: 24px;
+      max-height: 24px;
+      vertical-align: middle;
+      flex-shrink: 0;
+      display: inline-block;
+      fill: var(--color-main);
+    }
+    body.dark-mode .contact-list svg { fill: var(--color-main-dark);}
+    .contact-list li { align-items: center; gap: 9px; display: flex;}
+    @media (max-width: 800px) {.portfolio-carousel-oval-wrapper {margin:21px 0 4px 0;}}
+    @media (max-width: 600px) {.main-title {font-size:1.17em;}}
+    footer {background: none; color: #b3babd; font-size: 0.99em; padding: 38px 0 17px 0; text-align: center; margin-top: 65px; letter-spacing:.02em;}
+  </style>
+</head>
+<body>
+  <button class="darkmode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <span id="toggleIcon">🌙</span>
+  </button>
+  <div class="hero-header" id="hero">
+    <div class="hero-bg-shape"></div>
+    <img src="img_6107_anna_garcia.jpeg" class="profile-pic" alt="Your Name headshot" />
+    <div class="main-title">Your Name</div>
+    <div class="main-subtitle">PhD Candidate &mdash; Animal Behaviour, Biology</div>
+    <div class="hero-desc">
+      Enthusiastic scientist researching animal cognition, foraging, and social systems.<br>
+      <em>Seeking <b>research, science communication, conservation</b> roles &mdash; translating discovery to impact.</em>
+    </div>
+    <nav class="main-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#cv">CV</a>
+      <a href="#research">Research</a>
+      <a href="#portfolio">Projects</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="scroll-down-cue">
+      <span>Scroll Down</span>
+      <div class="scroll-down-arrow">⬇</div>
+    </div>
+  </div>
+  <nav class="sticky-nav" id="stickyNav" style="display:none;">
+    <span class="site-name">Your Name</span>
+    <div class="main-nav">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#cv">CV</a>
+      <a href="#research">Research</a>
+      <a href="#portfolio">Projects</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <div class="site-container">
+
+    <section id="about">
+      <h3>About Me</h3>
+      <ul class="key-pts">
+        <li><b>Curious, adaptable scientist</b> passionate about animal intelligence and social dynamics</li>
+        <li>Combines <b>experimental design</b>, advanced analytics (<b>R, Python</b>), &amp; <b>public engagement</b></li>
+        <li><b>Values:</b> discovery, collaboration, and accessibility in science</li>
+      </ul>
+      <p><strong>Approach:</strong> Rigorous research, creative communication, and an eye for real-world impact in biology and conservation.</p>
+      <div class="section-divider">
+        <svg viewBox="0 0 700 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 35 Q 175 5, 350 35 Q 525 65, 700 35 V40 H0Z" fill="var(--color-accent)" opacity=".13"/></svg>
+      </div>
+    </section>
+    <section id="skills">
+      <h3>Skills &amp; Methods Search</h3>
+      <input type="text" id="skillSearch" placeholder="Type to search skills (e.g. R, Python, field, statistics)..." autocomplete="off" />
+      <ul class="skills-list" id="skillsList">
+        <li data-skill="R programming">R programming</li>
+        <li data-skill="Python">Python</li>
+        <li data-skill="Fieldwork">Fieldwork: animal tracking</li>
+        <li data-skill="Statistical modeling">Statistical modeling</li>
+        <li data-skill="GLMMs">GLMMs &amp; mixed models</li>
+        <li data-skill="Data visualization">Data visualization (ggplot2, seaborn)</li>
+        <li data-skill="Experiment design">Experiment design</li>
+        <li data-skill="Science communication">Science communication</li>
+        <li data-skill="Public speaking">Public speaking</li>
+        <li data-skill="Conservation outreach">Conservation outreach</li>
+        <li data-skill="Bioacoustics">Bioacoustics</li>
+        <li data-skill="Machine learning basics">Machine learning basics</li>
+        <li data-skill="GIS">GIS (QGIS, ArcGIS)</li>
+        <li data-skill="Coding reproducible analyses">Coding reproducible analyses</li>
+        <li data-skill="Project management">Project management</li>
+        <li data-skill="Collaboration">Collaboration</li>
+        <li data-skill="Teaching & mentoring">Teaching &amp; mentoring</li>
+        <li data-skill="Open science tools">Open science tools</li>
+        <li data-skill="Animal welfare">Animal welfare</li>
+      </ul>
+      <p id="noSkillFound" style="display:none;color:#a44;margin-top:1em;">No matching skills found.</p>
+      <div class="section-divider">
+        <svg viewBox="0 0 700 40"><path d="M0 14 Q 130 35, 350 19 Q 570 8, 700 36 V40 H0Z" fill="var(--color-bright)" opacity=".15"/></svg>
+      </div>
+    </section>
+    <section id="portfolio">
+      <h3>Featured Projects & Portfolio</h3>
+      <div class="portfolio-carousel-oval-wrapper">
+        <button class="carousel-oval-arrow" id="oval-prev" aria-label="Previous project">&larr;</button>
+        <div class="portfolio-carousel-oval">
+          <div class="portfolio-oval-item center">
+            <img class="portfolio-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80" alt="Meerkats fieldwork">
+            <div class="portfolio-title" tabindex="0" role="button">Field Study: Social Learning in Wild Meerkats</div>
+            <div class="portfolio-desc">Designed and led behavioral assays revealing how juvenile meerkats acquire new foraging techniques.<br><em>Open science dataset.</em></div>
+            <div class="portfolio-links"><a href="#">Learn More</a><a href="#">Poster</a></div>
+          </div>
+          <div class="portfolio-oval-item right">
+            <img class="portfolio-img" src="https://images.unsplash.com/photo-1464983953574-0892a716854b?w=600&q=80" alt="Data visualization screenshot">
+            <div class="portfolio-title" tabindex="0" role="button">Data Visualization: "Social Networks of Crows"</div>
+            <div class="portfolio-desc">Built reproducible R code for visualizing dynamic flock interactions.<br><em>For citizen science groups.</em></div>
+            <div class="portfolio-links"><a href="#">GitHub</a><a href="#">Paper</a></div>
+          </div>
+          <div class="portfolio-oval-item left">
+            <img class="portfolio-img" src="https://images.unsplash.com/photo-1432889490240-84df33d47091?w=600&q=80" alt="Students at outreach event">
+            <div class="portfolio-title" tabindex="0" role="button">Outreach: Urban Wildlife Workshops</div>
+            <div class="portfolio-desc">Interactive biodiversity workshops for 200+ students.<br><em>Featured in local press.</em></div>
+            <div class="portfolio-links"><a href="#">Article</a></div>
+          </div>
+          <div class="portfolio-oval-item next">
+            <img class="portfolio-img" src="https://images.unsplash.com/photo-1424746219973-8fe3bd07d8e3?w=600&q=80" alt="Research teamwork">
+            <div class="portfolio-title" tabindex="0" role="button">Bat Migration Tracking</div>
+            <div class="portfolio-desc">Cross-lab effort using GPS tagging and acoustic monitoring to study seasonal bat migration.</div>
+            <div class="portfolio-links"><a href="#">Preprint</a></div>
+          </div>
+          <div class="portfolio-oval-item prev">
+            <img class="portfolio-img" src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=600&q=80" alt="Lecture theatre">
+            <div class="portfolio-title" tabindex="0" role="button">Teaching: Interactive Behavioural Ecology</div>
+            <div class="portfolio-desc">Developed hands-on modules and live animal demos for undergrad teaching.<br><em>Feedback rated "Excellent".</em></div>
+            <div class="portfolio-links"><a href="#">Teaching Details</a></div>
+          </div>
+        </div>
+        <button class="carousel-oval-arrow" id="oval-next" aria-label="Next project">&rarr;</button>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <h3>Teaching & Outreach</h3>
+      <ul class="key-pts">
+        <li>Graduate Teaching Assistant, [Course Name], [Year(s)]</li>
+        <li>Public Outreach: Science in the Park, [Year]</li>
+        <li>Invited Talks: [Talk Title], [Venue], [Year]</li>
+      </ul>
+      <div class="section-divider">
+        <svg viewBox="0 0 700 40"><path d="M0 22 Q 170 2, 340 40 Q 510 78, 700 22 V40 H0Z" fill="var(--color-main)" opacity=".15"/></svg>
+      </div>
+    </section>
+    <section id="contact">
+      <h3>Contact</h3>
+      <ul class="contact-list">
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M3.9 4.1A2.1 2.1 0 0 0 2 6.2v11.6a2.1 2.1 0 0 0 1.9 2.1h16.2a2.1 2.1 0 0 0 1.9-2.1V6.2a2.1 2.1 0 0 0-1.9-2.1zm.1 1.83h16c.057 0 .112.005.167.014l-7.994 7.121a1.1 1.1 0 0 1-1.446 0L3.733 5.944A.187.187 0 0 1 4 5.93zm16 1.437v10.263a1.1 1.1 0 0 1-1.1 1.1H5.1a1.1 1.1 0 0 1-1.1-1.1V7.248l7.276 6.484a2.5 2.5 0 0 0 3.247 0z"/></svg>
+          <a href="mailto:YOUR.EMAIL@youruniversity.edu">YOUR.EMAIL@youruniversity.edu</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><text x="7" y="17" font-size="7" fill="currentColor">ID</text></svg>
+          <a href="https://orcid.org/YOUR_ORCID" target="_blank">ORCID</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 28 28"><rect x="2" y="6" width="24" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><rect x="7" y="10" width="3" height="8" fill="currentColor"/><rect x="12.5" y="12" width="3" height="6" fill="currentColor"/><rect x="18" y="13" width="3" height="5" fill="currentColor"/></svg>
+          <a href="#">LinkedIn</a>
+        </li>
+      </ul>
+      <p style="margin:20px 0 0 0;font-size:.98em;color:#444;"><strong>Let's connect!</strong> I love discussing collaboration, mentoring, and science communication.</p>
+      
+    </section>
+
+    <div class="skill-modal-bg" id="skillModalBg" tabindex="-1">
+      <div class="skill-modal" id="skillModal" tabindex="0">
+        <button class="close-skill-modal" aria-label="Close" onclick="closeSkillModal()">&times;</button>
+        <h4 id="skillModalTitle"></h4>
+        <div class="skill-modal-desc" id="skillModalDesc"></div>
+        <ul id="skillModalProjects"></ul>
+      </div>
+    </div>
+
+    <!-- Project modal (reuses skill-modal styles) -->
+    <div class="skill-modal-bg" id="projectModalBg" tabindex="-1">
+      <div class="skill-modal" id="projectModal" tabindex="0">
+        <button class="close-skill-modal" aria-label="Close" onclick="closeProjectModal()">&times;</button>
+        <h4 id="projectModalTitle"></h4>
+        <div class="skill-modal-desc" id="projectModalDesc"></div>
+        <div id="projectModalLinks"></div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2024 Your Name | Website designed by me</footer>
+
+  <script>
+    const CAROUSEL_AUTOPLAY = false;
+    // Dark mode toggle
+    (function() {
+      if(localStorage.getItem("annaDark")==="true") document.body.classList.add('dark-mode');
+      function updateIcon(){
+        document.getElementById("toggleIcon").textContent=document.body.classList.contains('dark-mode')?'🌞':'🌙';
+      }
+      document.querySelector('.darkmode-toggle').onclick=function(){
+        document.body.classList.toggle('dark-mode');localStorage.setItem('annaDark',document.body.classList.contains('dark-mode'));updateIcon();
+      }
+      updateIcon();
+    })();
+    document.addEventListener("DOMContentLoaded", function() {
+      // SKILLS MODAL - edit this array for your data!
+      const skills = [
+        {key: "R programming", desc: "R user since 2017: data wrangling, statistical analysis, custom scripts for animal behaviour and ecology.",
+          projects: ["Population modeling using <strong>lme4</strong> and <strong>glmmTMB</strong>.",
+                    "All analyses for <b>[Paper 1]</b> and <b>Bat Migration</b>.",
+                    "Taught R workshops for graduate students."] },
+        {key: "Python", desc: "Python for data viz (seaborn, matplotlib); web scraping and bioacoustics analysis.",
+          projects: ["Scripted bioacoustic recognizer for Bat Migration.","Bird call classifier in SciPy."] },
+        {key: "Fieldwork", desc: "Field-based animal tracking (GPS, data loggers), observations, and experiments in arid and temperate zones.",
+          projects: ["Deployed/managing equipment for <strong>Meerkat Social Learning</strong>.", "Led teams for Urban Wildlife Workshops."]},
+        // ...add more
+      ];
+      var skillsMap = {};
+      skills.forEach(s => skillsMap[s.key.toLowerCase()] = s);
+
+      var skillInput = document.getElementById("skillSearch");
+      var skillItems = Array.from(document.querySelectorAll("#skillsList li"));
+      var noSkill = document.getElementById("noSkillFound");
+      skillInput.addEventListener("input", function() {
+        var q = skillInput.value.trim().toLowerCase();
+        skillItems.forEach(function(li) {
+          var text = li.textContent.toLowerCase();
+          if (!q || text.includes(q)) {
+            li.style.display = "";
+            li.classList.toggle("matched", q && text.includes(q));
+          } else {
+            li.style.display = "none";
+            li.classList.remove("matched");
+          }
+        });
+        if (q && skillItems.filter(s => s.style.display!=="none").length === 0) {
+          noSkill.style.display = "";
+        } else {
+          noSkill.style.display = "none";
+        }
+      });
+
+      // Modal pop-up for skill info
+      window.showSkillModal = function(skillName){
+        var s = skillsMap[skillName.toLowerCase()];
+        if (!s) return;
+        document.getElementById('skillModalTitle').innerHTML = s.key;
+        document.getElementById('skillModalDesc').innerHTML = s.desc ? s.desc : '';
+        var list = document.getElementById('skillModalProjects');
+        list.innerHTML = "";
+        if (s.projects && s.projects.length) {
+          s.projects.forEach(function(p){
+            var li = document.createElement('li');
+            li.innerHTML = p;
+            list.appendChild(li);
+          });
+        }
+        document.getElementById('skillModalBg').classList.add('show');
+        document.getElementById('skillModal').focus();
+      }
+      window.closeSkillModal = function(){
+        document.getElementById('skillModalBg').classList.remove('show');
+      }
+      document.getElementById('skillModalBg').addEventListener('click',e=>{
+        if(e.target.id==='skillModalBg')closeSkillModal();
+      });
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape')closeSkillModal();
+      });
+
+      // Attach click event to skills (event delegation)
+      document.getElementById('skillsList').addEventListener('click', function(e){
+        if(e.target && e.target.matches('li[data-skill]')) {
+          showSkillModal(e.target.getAttribute('data-skill'));
+        }
+      });
+
+      // Section fade-in, sticky nav, nav highlight
+      function revealSections() {var sections = document.querySelectorAll("section");
+        var windowBottom = window.innerHeight + window.scrollY;
+        sections.forEach(function(section) {
+          var offsetTop = section.getBoundingClientRect().top + window.scrollY;
+          if(windowBottom > offsetTop + 60) {section.classList.add("visible");}
+        });
+      }
+      revealSections();
+      window.addEventListener("scroll", revealSections);
+      var hero = document.getElementById('hero');
+      var stickyNav = document.getElementById('stickyNav');
+      function checkNav() {
+        var heroBottom = hero.getBoundingClientRect().bottom;
+        if(heroBottom <= 0) {stickyNav.style.display = 'flex'; hero.classList.add('hide-hero-nav');}
+        else {stickyNav.style.display = 'none';hero.classList.remove('hide-hero-nav');}
+      }
+      window.addEventListener('scroll', checkNav, {passive:true});
+      checkNav();
+      const navLinks = document.querySelectorAll('.main-nav a');
+      function setActiveLink() {
+        let fromTop = window.scrollY + 75;
+        let ids = ['about','skills','cv','research','portfolio','teaching','contact'];
+        let currentId = ids[0];
+        for(let i=0;i<ids.length;++i){
+          let sec = document.getElementById(ids[i]);
+          if(sec && sec.offsetTop < fromTop) currentId=ids[i];
+        }
+        navLinks.forEach(link => {
+          if(link.getAttribute('href') === '#'+currentId) link.classList.add('active');
+          else link.classList.remove('active');
+        });
+      }
+      window.addEventListener('scroll', setActiveLink, {passive:true});
+      setActiveLink();
+      // Carousel
+      const items = Array.from(document.querySelectorAll('.portfolio-oval-item'));
+      const prevBtn = document.getElementById('oval-prev');
+      const nextBtn = document.getElementById('oval-next');
+      let current = 0;
+      let interval = null;
+      let paused = false;
+      let locked = false;
+      function setClasses() {
+        items.forEach(item => {item.className = "portfolio-oval-item";});
+        const len = items.length;
+        const left = (current - 1 + len) % len;
+        const right = (current + 1) % len;
+        const prev = (current - 2 + len) % len;
+        const next = (current + 2) % len;
+        items[current].classList.add("center");
+        items[left].classList.add("left");
+        items[right].classList.add("right");
+        if (len > 3) {items[prev].classList.add("prev");items[next].classList.add("next");}
+      }
+      function move(n) {
+        const len = items.length;
+        if (locked) return;
+        locked = true;
+        current = (current + n + len) % len;
+        setClasses();
+        setTimeout(()=>{locked = false;}, 770);
+      }
+      function handlePrev() { pauseAutoplay(); move(-1);}
+      function handleNext() { pauseAutoplay(); move(1);}
+      if(prevBtn) prevBtn.addEventListener('click', handlePrev);
+      if(nextBtn) nextBtn.addEventListener('click', handleNext);
+      document.addEventListener('keydown', function(e){
+        if(document.activeElement.tagName.match(/input|textarea/i)) return;
+        if(e.key === "ArrowLeft"){ handlePrev(); }
+        else if(e.key === "ArrowRight") { handleNext(); }
+      });
+      function startAutoplay() {
+        if (!CAROUSEL_AUTOPLAY) return;
+        interval = setInterval(() => {
+          if (!paused) move(1);
+        }, 4000);
+      }
+      function pauseAutoplay() {
+        paused = true;
+        clearTimeout(window.__ovalPauseTimeout__);
+        window.__ovalPauseTimeout__ = setTimeout(() => { paused = false; }, 9000);
+      }
+      const oval = document.querySelector('.portfolio-carousel-oval');
+      if(oval){
+        oval.addEventListener('mouseenter', () => { paused = true; });
+        oval.addEventListener('mouseleave', () => { paused = false; });
+        oval.addEventListener('touchstart', () => { paused = true; });
+        oval.addEventListener('touchend', () => { paused = false; });
+      }
+      setClasses(); 
+      if (CAROUSEL_AUTOPLAY) startAutoplay();
+
+      // Project modal - open when user clicks or activates a project's title
+      function showProjectModalFromItem(item) {
+        if (!item) return;
+        const title = item.querySelector('.portfolio-title')?.textContent || '';
+        const desc = item.querySelector('.portfolio-desc')?.innerHTML || '';
+        const linksHtml = item.querySelector('.portfolio-links')?.innerHTML || '';
+        document.getElementById('projectModalTitle').innerText = title;
+        document.getElementById('projectModalDesc').innerHTML = desc;
+        document.getElementById('projectModalLinks').innerHTML = linksHtml ? '<div class="portfolio-links">' + linksHtml + '</div>' : '';
+        document.getElementById('projectModalBg').classList.add('show');
+        document.getElementById('projectModal').focus();
+      }
+      window.closeProjectModal = function() {
+        document.getElementById('projectModalBg').classList.remove('show');
+      };
+
+      // click delegation for titles
+      const ovalWrapper = document.querySelector('.portfolio-carousel-oval');
+      if (ovalWrapper) {
+        ovalWrapper.addEventListener('click', function(e) {
+          const titleEl = e.target.closest('.portfolio-title');
+          if (!titleEl) return;
+          const item = titleEl.closest('.portfolio-oval-item');
+          showProjectModalFromItem(item);
+        });
+        // keyboard activation (Enter or Space) when a title is focused
+        ovalWrapper.addEventListener('keydown', function(e) {
+          if (!document.activeElement.classList.contains('portfolio-title')) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const item = document.activeElement.closest('.portfolio-oval-item');
+            showProjectModalFromItem(item);
+          }
+        });
+      }
+      // click outside to close
+      document.getElementById('projectModalBg').addEventListener('click', e => {
+        if (e.target.id === 'projectModalBg') closeProjectModal();
+      });
+      // Escape to close (separate listener so both skill and project modals close)
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape') closeProjectModal();
+      });
+    });
+  </script>
+</body>
+</html>
